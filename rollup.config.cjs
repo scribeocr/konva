@@ -8,9 +8,9 @@ export default {
   input: `src/index.ts`,
   output: [
     {
-      file: 'konva.js',
+      file: 'konva.esm.js',
       name: 'Konva',
-      format: 'umd',
+      format: 'esm',
       sourcemap: false,
       freeze: false,
     },
