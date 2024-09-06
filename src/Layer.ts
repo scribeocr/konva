@@ -60,6 +60,9 @@ export class Layer extends Container<Group | Shape> {
     pixelRatio: 1,
   });
 
+  _drawRequest = 0;
+  _drawRequestCompleted = 0;
+
   _waitingForDraw = false;
 
   constructor(config?: LayerConfig) {
@@ -295,11 +298,16 @@ export class Layer extends Container<Group | Shape> {
    * @return {Konva.Layer} this
    */
   batchDraw() {
+    this._drawRequest++;
     if (!this._waitingForDraw) {
       this._waitingForDraw = true;
       Util.requestAnimFrame(() => {
+        this._drawRequestCompleted = this._drawRequest;
         this.draw();
         this._waitingForDraw = false;
+        if (this._drawRequest > this._drawRequestCompleted) {
+          this.batchDraw();
+        }
       });
     }
     return this;
