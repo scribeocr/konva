@@ -16,8 +16,8 @@ import { DD } from './DragAndDrop';
 
 import { Shape, shapes } from './Shape';
 
-import { Animation } from './Animation';
-import { Tween, Easings } from './Tween';
+// import { Animation } from './Animation';
+// import { Tween, Easings } from './Tween';
 
 import { Context } from './Context';
 import { Canvas } from './Canvas';
@@ -35,9 +35,9 @@ export const Konva = Util._assign(Global, {
   DD,
   Shape,
   shapes,
-  Animation,
-  Tween,
-  Easings,
+  // Animation,
+  // Tween,
+  // Easings,
   Context,
   Canvas,
 });
