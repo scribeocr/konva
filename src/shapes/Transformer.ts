@@ -983,6 +983,21 @@ export class Transformer extends Group {
   _fitNodesInto(newAttrs, evt?) {
     var oldAttrs = this._getNodeRect();
 
+    // Condition added by ScribeOCR fork that prevents Transformer from resizing below a certain width.
+    // This does not appear to be possible without modifying the codebase.
+    // The `flipEnabled` property would appear to prevent this, however it only stops the text from being printed backwards.
+    // The `boundBoxFunc` property would appear to be the solution, however that does not work,
+    // because if the width is negative, Konva switches the active anchor to the opposite side, before getting to the boundBoxFunc.
+    const minWidth = 10;
+    if (newAttrs.width < minWidth) {
+      newAttrs.width = minWidth;
+      if (this._movingAnchorName &&
+        this._movingAnchorName.indexOf('left') >= 0
+      ) {
+        newAttrs.x = oldAttrs.x + oldAttrs.width - minWidth;
+      }
+    }
+
     const minSize = 1;
 
     if (Util._inRange(newAttrs.width, -this.padding() * 2 - minSize, minSize)) {
